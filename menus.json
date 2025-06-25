@@ -1,0 +1,11 @@
+{
+  "menus": [
+    { "file": "base.json",       "description": "Símbolos básicos"     },
+    { "file": "entornos.json",   "description": "Entornos matemáticos" },
+    { "file": "estadistica.json","description": "Estadística"          },
+    { "file": "fisica.json",     "description": "Física"               },
+    { "file": "quimica.json",     "description": "Química"             },
+    { "file": "geometria.json",  "description": "Geometría"            }
+  ]
+}
+

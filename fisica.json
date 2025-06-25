@@ -1,0 +1,311 @@
+{
+  "categorias": [
+    {
+      "nombre": "Cinemática",
+      "id": "cinematica",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "v = \\frac{\\Delta x}{\\Delta t}",
+          "title": "Velocidad media"
+        },
+        {
+          "type": "button",
+          "latex": "a = \\frac{\\Delta v}{\\Delta t}",
+          "title": "Aceleración media"
+        },
+        {
+          "type": "button",
+          "latex": "x = x_0 + v t",
+          "title": "MRU"
+        },
+        {
+          "type": "button",
+          "latex": "x = x_0 + v_0 t + \\frac{1}{2} a t^2",
+          "title": "Posición con aceleración constante"
+        },
+        {
+          "type": "button",
+          "latex": "v = v_0 + a t",
+          "title": "Velocidad con aceleración constante"
+        },
+        {
+          "type": "button",
+          "latex": "v^2 = v_0^2 + 2 a (x - x_0)",
+          "title": "Velocidad sin tiempo"
+        }
+      ]
+    },
+    {
+      "nombre": "Dinámica",
+      "id": "dinamica",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "F = m a",
+          "title": "Segunda ley de Newton"
+        },
+        {
+          "type": "button",
+          "latex": "p = m v",
+          "title": "Momento lineal"
+        },
+        {
+          "type": "button",
+          "latex": "F = \\frac{\\Delta p}{\\Delta t}",
+          "title": "Fuerza e impulso"
+        },
+        {
+          "type": "button",
+          "latex": "W = F d \\cos\\theta",
+          "title": "Trabajo"
+        },
+        {
+          "type": "button",
+          "latex": "P = \\frac{W}{t}",
+          "title": "Potencia"
+        }
+      ]
+    },
+    {
+      "nombre": "Energía y trabajo",
+      "id": "energia",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "E_c = \\frac{1}{2} m v^2",
+          "title": "Energía cinética"
+        },
+        {
+          "type": "button",
+          "latex": "E_p = m g h",
+          "title": "Energía potencial gravitatoria"
+        },
+        {
+          "type": "button",
+          "latex": "E_m = E_c + E_p",
+          "title": "Energía mecánica"
+        },
+        {
+          "type": "button",
+          "latex": "\\Delta E = W",
+          "title": "Teorema trabajo-energía"
+        },
+        {
+          "type": "button",
+          "latex": "P = V I",
+          "title": "Potencia eléctrica"
+        }
+      ]
+    },
+    {
+      "nombre": "Gravitación",
+      "id": "gravitacion",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "F = G \\frac{m_1 m_2}{r^2}",
+          "title": "Ley de gravitación universal"
+        },
+        {
+          "type": "button",
+          "latex": "g = \\frac{G M}{r^2}",
+          "title": "Campo gravitatorio"
+        },
+        {
+          "type": "button",
+          "latex": "E_p = -G \\frac{m M}{r}",
+          "title": "Energía potencial gravitatoria"
+        },
+        {
+          "type": "button",
+          "latex": "v = \\sqrt{\\frac{G M}{r}}",
+          "title": "Velocidad orbital"
+        }
+      ]
+    },
+    {
+      "nombre": "Ondas y Oscilaciones",
+      "id": "ondas_oscilaciones",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "v = \\lambda f",
+          "title": "Velocidad de onda"
+        },
+        {
+          "type": "button",
+          "latex": "T = \\frac{1}{f}",
+          "title": "Periodo"
+        },
+        {
+          "type": "button",
+          "latex": "f = \\frac{1}{T}",
+          "title": "Frecuencia"
+        },
+        {
+          "type": "button",
+          "latex": "F = -k x",
+          "title": "Ley de Hooke"
+        },
+        {
+          "type": "button",
+          "latex": "T = 2\\pi \\sqrt{\\frac{m}{k}}",
+          "title": "Período MAS"
+        },
+        {
+          "type": "button",
+          "latex": "x(t) = A \\cos(\\omega t + \\phi)",
+          "title": "Movimiento armónico simple"
+        }
+      ]
+    },
+    {
+      "nombre": "Electricidad y Magnetismo",
+      "id": "electromagnetismo",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "V = I R",
+          "title": "Ley de Ohm"
+        },
+        {
+          "type": "button",
+          "latex": "R_{eq} = R_1 + R_2",
+          "title": "Resistencias en serie"
+        },
+        {
+          "type": "button",
+          "latex": "\\frac{1}{R_{eq}} = \\frac{1}{R_1} + \\frac{1}{R_2}",
+          "title": "Resistencias en paralelo"
+        },
+        {
+          "type": "button",
+          "latex": "C = \\frac{Q}{V}",
+          "title": "Capacitancia"
+        },
+        {
+          "type": "button",
+          "latex": "U = \\tfrac{1}{2} C V^2",
+          "title": "Energía en condensador"
+        },
+        {
+          "type": "button",
+          "latex": "q\\,v\\,B\\sin\\theta",
+          "title": "Fuerza de Lorentz"
+        },
+        {
+          "type": "button",
+          "latex": "\\Phi = B A \\cos\\theta",
+          "title": "Flujo magnético"
+        },
+        {
+          "type": "button",
+          "latex": "\\mathcal{E} = -\\frac{d\\Phi}{dt}",
+          "title": "Ley de Faraday"
+        }
+      ]
+    },
+    {
+      "nombre": "Óptica",
+      "id": "optica",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2",
+          "title": "Ley de Snell"
+        },
+        {
+          "type": "button",
+          "latex": "\\frac{1}{f} = \\frac{1}{d_o} + \\frac{1}{d_i}",
+          "title": "Lentes delgadas"
+        },
+        {
+          "type": "button",
+          "latex": "M = -\\frac{d_i}{d_o}",
+          "title": "Aumento lateral"
+        },
+        {
+          "type": "button",
+          "latex": "\\theta_i = \\theta_r",
+          "title": "Reflexión"
+        }
+      ]
+    },
+    {
+      "nombre": "Fluidos",
+      "id": "fluidos",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "P = \\frac{F}{A}",
+          "title": "Presión"
+        },
+        {
+          "type": "button",
+          "latex": "P = P_0 + \\rho g h",
+          "title": "Presión hidrostática"
+        },
+        {
+          "type": "button",
+          "latex": "A_1 v_1 = A_2 v_2",
+          "title": "Ecuación de continuidad"
+        },
+        {
+          "type": "button",
+          "latex": "P + \\tfrac12 \\rho v^2 + \\rho g h = \\text{constante}",
+          "title": "Ecuación de Bernoulli"
+        }
+      ]
+    },
+    {
+      "nombre": "Termodinámica",
+      "id": "termodinamica",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": false,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "PV = n R T",
+          "title": "Gas ideal"
+        },
+        {
+          "type": "button",
+          "latex": "Q = m c \\Delta T",
+          "title": "Calor sensible"
+        },
+        {
+          "type": "button",
+          "latex": "Q = m L",
+          "title": "Calor latente"
+        },
+        {
+          "type": "button",
+          "latex": "\\Delta U = Q - W",
+          "title": "Primer principio"
+        },
+        {
+          "type": "button",
+          "latex": "\\Delta S = \\frac{Q_{rev}}{T}",
+          "title": "Entropía"
+        }
+      ]
+    }
+  ]
+}

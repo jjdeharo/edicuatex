@@ -1,0 +1,248 @@
+{
+  "categorias": [
+    {
+      "nombre": "Notación simbólica química",
+      "id": "notacion-quimica",
+      "grid_template_columns": "repeat(auto-fit, minmax(120px, 1fr))",
+      "isCollapsed": true,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "_{}^{}\\mathrm{}",
+          "display": "_{6}^{12}\\mathrm{C}",
+          "title": "Elemento con número atómico y másico"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{}",
+          "display": "\\ce{H2O}",
+          "title": "Fórmula química (paquete mhchem)"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{->}",
+          "display": "\\ce{->}",
+          "title": "Flecha de reacción"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{<-}",
+          "display": "\\ce{<-}",
+          "title": "Flecha de reacción inversa"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{<=>}",
+          "display": "\\ce{<=>}",
+          "title": "Reacción reversible"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{CO2 + H2O -> H2CO3}",
+          "display": "\\ce{CO2 + H2O -> H2CO3}",
+          "title": "Ejemplo de reacción química"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{^{23}_{11}Na^+}\n",
+          "display": "",
+          "title": "Ión positivo"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{Cl^-}",
+          "display": "\\ce{Cl^-}",
+          "title": "Ión negativo"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{Ag_{(s)}}",
+          "display": "\\ce{Ag_{(s)}}",
+          "title": "Estado sólido"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{H2O_{(l)}}",
+          "display": "\\ce{H2O_{(l)}}",
+          "title": "Estado líquido"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{CO2_{(g)}}",
+          "display": "\\ce{CO2_{(g)}}",
+          "title": "Estado gaseoso"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{NaCl_{(aq)}}",
+          "display": "\\ce{NaCl_{(aq)}}",
+          "title": "Estado acuoso"
+        },
+        {
+          "type": "button",
+          "latex": "\\ce{2H2 + O2 -> 2H2O}",
+          "display": "\\ce{2H2 + O2 -> 2H2O}",
+          "title": "Reacción balanceada"
+        }
+      ]
+    },
+    {
+      "nombre": "Gases ideales",
+      "id": "gases_ideales",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": true,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "PV = n R T",
+          "title": "Ecuación de estado de gas ideal"
+        },
+        {
+          "type": "button",
+          "latex": "d = \\frac{PM}{RT}",
+          "title": "Densidad de un gas ideal"
+        },
+        {
+          "type": "button",
+          "latex": "p_i = x_i P",
+          "title": "Presión parcial"
+        }
+      ]
+    },
+    {
+      "nombre": "Estequiometría",
+      "id": "estequiometria",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": true,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "n = \\frac{m}{M}",
+          "title": "Cantidad de sustancia"
+        },
+        {
+          "type": "button",
+          "latex": "m = n M",
+          "title": "Masa de sustancia"
+        },
+        {
+          "type": "button",
+          "latex": "C = \\frac{n}{V}",
+          "title": "Concentración molar"
+        },
+        {
+          "type": "button",
+          "latex": "C_1 V_1 = C_2 V_2",
+          "title": "Dilución"
+        }
+      ]
+    },
+    {
+      "nombre": "Equilibrio químico",
+      "id": "equilibrio_quimico",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": true,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "K_c = \\frac{[C]^c [D]^d}{[A]^a [B]^b}",
+          "title": "Constante de equilibrio (Kc)"
+        },
+        {
+          "type": "button",
+          "latex": "K_p = K_c (RT)^{\\Delta n}",
+          "title": "Constante de equilibrio (Kp)"
+        },
+        {
+          "type": "button",
+          "latex": "Q = \\frac{[C]^c [D]^d}{[A]^a [B]^b}",
+          "title": "Cociente de reacción"
+        }
+      ]
+    },
+    {
+      "nombre": "Ácido-base",
+      "id": "acido_base",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": true,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "pH = -\\log_{10}[H^+]",
+          "title": "pH"
+        },
+        {
+          "type": "button",
+          "latex": "pOH = -\\log_{10}[OH^-]",
+          "title": "pOH"
+        },
+        {
+          "type": "button",
+          "latex": "pH + pOH = 14",
+          "title": "Relación pH-pOH"
+        },
+        {
+          "type": "button",
+          "latex": "K_a = \\frac{[H^+][A^-]}{[HA]}",
+          "title": "Constante de acidez"
+        },
+        {
+          "type": "button",
+          "latex": "pK_a = -\\log_{10}K_a",
+          "title": "pKa"
+        },
+        {
+          "type": "button",
+          "latex": "pH = pK_a + \\log_{10}\\frac{[A^-]}{[HA]}",
+          "title": "Henderson–Hasselbalch"
+        }
+      ]
+    },
+    {
+      "nombre": "Termoquímica",
+      "id": "termoquimica",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": true,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "Q = m c \\Delta T",
+          "title": "Calor sensible"
+        },
+        {
+          "type": "button",
+          "latex": "Q = n \\Delta H_{\\text{rxn}}",
+          "title": "Calor de reacción"
+        },
+        {
+          "type": "button",
+          "latex": "\\Delta G = \\Delta H - T \\Delta S",
+          "title": "Energía libre de Gibbs"
+        }
+      ]
+    },
+    {
+      "nombre": "Constantes",
+      "id": "constantes_quimicas",
+      "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
+      "isCollapsed": true,
+      "elementos": [
+        {
+          "type": "button",
+          "latex": "N_A = 6.022\\times10^{23}\\,\\mathrm{mol}^{-1}",
+          "title": "Número de Avogadro"
+        },
+        {
+          "type": "button",
+          "latex": "R = 8.314\\,\\mathrm{J mol^{-1}K^{-1}}",
+          "title": "Constante de los gases"
+        },
+        {
+          "type": "button",
+          "latex": "k_B = 1.381\\times10^{-23}\\,\\mathrm{J/K}",
+          "title": "Constante de Boltzmann"
+        }
+      ]
+    }
+  ]
+}
