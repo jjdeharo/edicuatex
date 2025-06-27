@@ -1,7 +1,7 @@
 {
   "categorias": [
     {
-      "nombre": "Cinemática",
+      "nombre": "Kinematics",
       "id": "cinematica",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -9,37 +9,37 @@
         {
           "type": "button",
           "latex": "v = \\frac{\\Delta x}{\\Delta t}",
-          "title": "Velocidad media"
+          "title": "Average velocity"
         },
         {
           "type": "button",
           "latex": "a = \\frac{\\Delta v}{\\Delta t}",
-          "title": "Aceleración media"
+          "title": "Average acceleration"
         },
         {
           "type": "button",
           "latex": "x = x_0 + v t",
-          "title": "MRU"
+          "title": "Uniform motion"
         },
         {
           "type": "button",
           "latex": "x = x_0 + v_0 t + \\frac{1}{2} a t^2",
-          "title": "Posición con aceleración constante"
+          "title": "Position with constant acceleration"
         },
         {
           "type": "button",
           "latex": "v = v_0 + a t",
-          "title": "Velocidad con aceleración constante"
+          "title": "Velocity with constant acceleration"
         },
         {
           "type": "button",
           "latex": "v^2 = v_0^2 + 2 a (x - x_0)",
-          "title": "Velocidad sin tiempo"
+          "title": "Velocity without time"
         }
       ]
     },
     {
-      "nombre": "Dinámica",
+      "nombre": "Dynamics",
       "id": "dinamica",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -47,32 +47,32 @@
         {
           "type": "button",
           "latex": "F = m a",
-          "title": "Segunda ley de Newton"
+          "title": "Newton's second law"
         },
         {
           "type": "button",
           "latex": "p = m v",
-          "title": "Momento lineal"
+          "title": "Linear momentum"
         },
         {
           "type": "button",
           "latex": "F = \\frac{\\Delta p}{\\Delta t}",
-          "title": "Fuerza e impulso"
+          "title": "Force and impulse"
         },
         {
           "type": "button",
           "latex": "W = F d \\cos\\theta",
-          "title": "Trabajo"
+          "title": "Work"
         },
         {
           "type": "button",
           "latex": "P = \\frac{W}{t}",
-          "title": "Potencia"
+          "title": "Power"
         }
       ]
     },
     {
-      "nombre": "Energía y trabajo",
+      "nombre": "Energy and Work",
       "id": "energia",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -80,32 +80,32 @@
         {
           "type": "button",
           "latex": "E_c = \\frac{1}{2} m v^2",
-          "title": "Energía cinética"
+          "title": "Kinetic energy"
         },
         {
           "type": "button",
           "latex": "E_p = m g h",
-          "title": "Energía potencial gravitatoria"
+          "title": "Gravitational potential energy"
         },
         {
           "type": "button",
           "latex": "E_m = E_c + E_p",
-          "title": "Energía mecánica"
+          "title": "Mechanical energy"
         },
         {
           "type": "button",
           "latex": "\\Delta E = W",
-          "title": "Teorema trabajo-energía"
+          "title": "Work-energy theorem"
         },
         {
           "type": "button",
           "latex": "P = V I",
-          "title": "Potencia eléctrica"
+          "title": "Electric power"
         }
       ]
     },
     {
-      "nombre": "Gravitación",
+      "nombre": "Gravitation",
       "id": "gravitacion",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -113,27 +113,27 @@
         {
           "type": "button",
           "latex": "F = G \\frac{m_1 m_2}{r^2}",
-          "title": "Ley de gravitación universal"
+          "title": "Law of universal gravitation"
         },
         {
           "type": "button",
           "latex": "g = \\frac{G M}{r^2}",
-          "title": "Campo gravitatorio"
+          "title": "Gravitational field"
         },
         {
           "type": "button",
           "latex": "E_p = -G \\frac{m M}{r}",
-          "title": "Energía potencial gravitatoria"
+          "title": "Gravitational potential energy"
         },
         {
           "type": "button",
           "latex": "v = \\sqrt{\\frac{G M}{r}}",
-          "title": "Velocidad orbital"
+          "title": "Orbital velocity"
         }
       ]
     },
     {
-      "nombre": "Ondas y Oscilaciones",
+      "nombre": "Waves and Oscillations",
       "id": "ondas_oscilaciones",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -141,37 +141,37 @@
         {
           "type": "button",
           "latex": "v = \\lambda f",
-          "title": "Velocidad de onda"
+          "title": "Wave speed"
         },
         {
           "type": "button",
           "latex": "T = \\frac{1}{f}",
-          "title": "Periodo"
+          "title": "Period"
         },
         {
           "type": "button",
           "latex": "f = \\frac{1}{T}",
-          "title": "Frecuencia"
+          "title": "Frequency"
         },
         {
           "type": "button",
           "latex": "F = -k x",
-          "title": "Ley de Hooke"
+          "title": "Hooke's law"
         },
         {
           "type": "button",
           "latex": "T = 2\\pi \\sqrt{\\frac{m}{k}}",
-          "title": "Período MAS"
+          "title": "SHM Period"
         },
         {
           "type": "button",
           "latex": "x(t) = A \\cos(\\omega t + \\phi)",
-          "title": "Movimiento armónico simple"
+          "title": "Simple harmonic motion"
         }
       ]
     },
     {
-      "nombre": "Electricidad y Magnetismo",
+      "nombre": "Electricity and Magnetism",
       "id": "electromagnetismo",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -179,47 +179,47 @@
         {
           "type": "button",
           "latex": "V = I R",
-          "title": "Ley de Ohm"
+          "title": "Ohm's law"
         },
         {
           "type": "button",
           "latex": "R_{eq} = R_1 + R_2",
-          "title": "Resistencias en serie"
+          "title": "Resistors in series"
         },
         {
           "type": "button",
           "latex": "\\frac{1}{R_{eq}} = \\frac{1}{R_1} + \\frac{1}{R_2}",
-          "title": "Resistencias en paralelo"
+          "title": "Resistors in parallel"
         },
         {
           "type": "button",
           "latex": "C = \\frac{Q}{V}",
-          "title": "Capacitancia"
+          "title": "Capacitance"
         },
         {
           "type": "button",
           "latex": "U = \\tfrac{1}{2} C V^2",
-          "title": "Energía en condensador"
+          "title": "Energy in capacitor"
         },
         {
           "type": "button",
           "latex": "q\\,v\\,B\\sin\\theta",
-          "title": "Fuerza de Lorentz"
+          "title": "Lorentz force"
         },
         {
           "type": "button",
           "latex": "\\Phi = B A \\cos\\theta",
-          "title": "Flujo magnético"
+          "title": "Magnetic flux"
         },
         {
           "type": "button",
           "latex": "\\mathcal{E} = -\\frac{d\\Phi}{dt}",
-          "title": "Ley de Faraday"
+          "title": "Faraday's law"
         }
       ]
     },
     {
-      "nombre": "Óptica",
+      "nombre": "Optics",
       "id": "optica",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -227,27 +227,27 @@
         {
           "type": "button",
           "latex": "n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2",
-          "title": "Ley de Snell"
+          "title": "Snell's law"
         },
         {
           "type": "button",
           "latex": "\\frac{1}{f} = \\frac{1}{d_o} + \\frac{1}{d_i}",
-          "title": "Lentes delgadas"
+          "title": "Thin lens equation"
         },
         {
           "type": "button",
           "latex": "M = -\\frac{d_i}{d_o}",
-          "title": "Aumento lateral"
+          "title": "Lateral magnification"
         },
         {
           "type": "button",
           "latex": "\\theta_i = \\theta_r",
-          "title": "Reflexión"
+          "title": "Law of reflection"
         }
       ]
     },
     {
-      "nombre": "Fluidos",
+      "nombre": "Fluids",
       "id": "fluidos",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -255,27 +255,27 @@
         {
           "type": "button",
           "latex": "P = \\frac{F}{A}",
-          "title": "Presión"
+          "title": "Pressure"
         },
         {
           "type": "button",
           "latex": "P = P_0 + \\rho g h",
-          "title": "Presión hidrostática"
+          "title": "Hydrostatic pressure"
         },
         {
           "type": "button",
           "latex": "A_1 v_1 = A_2 v_2",
-          "title": "Ecuación de continuidad"
+          "title": "Continuity equation"
         },
         {
           "type": "button",
-          "latex": "P + \\tfrac12 \\rho v^2 + \\rho g h = \\text{constante}",
-          "title": "Ecuación de Bernoulli"
+          "latex": "P + \\tfrac12 \\rho v^2 + \\rho g h = \\text{constant}",
+          "title": "Bernoulli's equation"
         }
       ]
     },
     {
-      "nombre": "Termodinámica",
+      "nombre": "Thermodynamics",
       "id": "termodinamica",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -283,27 +283,27 @@
         {
           "type": "button",
           "latex": "PV = n R T",
-          "title": "Gas ideal"
+          "title": "Ideal gas law"
         },
         {
           "type": "button",
           "latex": "Q = m c \\Delta T",
-          "title": "Calor sensible"
+          "title": "Sensible heat"
         },
         {
           "type": "button",
           "latex": "Q = m L",
-          "title": "Calor latente"
+          "title": "Latent heat"
         },
         {
           "type": "button",
           "latex": "\\Delta U = Q - W",
-          "title": "Primer principio"
+          "title": "First law of thermodynamics"
         },
         {
           "type": "button",
           "latex": "\\Delta S = \\frac{Q_{rev}}{T}",
-          "title": "Entropía"
+          "title": "Entropy"
         }
       ]
     }

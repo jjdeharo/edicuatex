@@ -1,7 +1,7 @@
 {
   "categorias": [
     {
-      "nombre": "pH y equilibrio ácido-base",
+      "nombre": "pH and acid-base balance",
       "id": "ph_equilibrio",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "nombre": "Cinética enzimática",
+      "nombre": "Enzyme kinetics",
       "id": "cinetica_enzimatica",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "nombre": "Genética de poblaciones",
+      "nombre": "Population genetics",
       "id": "genetica_poblaciones",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -45,7 +45,7 @@
         {
           "type": "button",
           "latex": "p + q = 1",
-          "title": "Frecuencia alélica"
+          "title": "Allele frequency"
         },
         {
           "type": "button",
@@ -55,7 +55,7 @@
       ]
     },
     {
-      "nombre": "Dinámica poblacional",
+      "nombre": "Population dynamics",
       "id": "dinamica_poblacional",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -63,17 +63,17 @@
         {
           "type": "button",
           "latex": "N(t) = N_0 e^{rt}",
-          "title": "Crecimiento exponencial"
+          "title": "Exponential growth"
         },
         {
           "type": "button",
           "latex": "N(t) = \\frac{K}{1 + Ae^{-rt}}",
-          "title": "Crecimiento logístico"
+          "title": "Logistic growth"
         }
       ]
     },
     {
-      "nombre": "Transporte y difusión",
+      "nombre": "Transport and diffusion",
       "id": "transporte_difusion",
       "grid_template_columns": "repeat(auto-fit, minmax(180px, 1fr))",
       "isCollapsed": false,
@@ -81,17 +81,17 @@
         {
           "type": "button",
           "latex": "J = -D \\frac{dC}{dx}",
-          "title": "Ley de Fick"
+          "title": "Fick's Law"
         },
         {
           "type": "button",
           "latex": "E = \\frac{RT}{zF} \\ln\\frac{[\\text{ion}_{out}]}{[\\text{ion}_{in}]}",
-          "title": "Ecuación de Nernst"
+          "title": "Nernst equation"
         },
         {
           "type": "button",
           "latex": "\\Pi = i C R T",
-          "title": "Presión osmótica"
+          "title": "Osmotic pressure"
         }
       ]
     }
