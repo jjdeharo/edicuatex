@@ -972,12 +972,11 @@
             const searchInput = document.getElementById('search-input');
             const clearSearchBtn = document.getElementById('clear-search-btn');
             const settingsBtn = document.getElementById('settings-btn');
-            // Modals
             const settingsModal = document.getElementById('settings-modal');
             const closeSettingsBtn = document.getElementById('close-settings-btn');
             const urlInput = document.getElementById('url-input');
             const fileInput = document.getElementById('file-input');
-            const loadUrlBtn = document.getElementById('load-url-btn'); // <-- New button reference
+            const loadUrlBtn = document.getElementById('load-url-btn');
             const modalFeedback = document.getElementById('modal-feedback');
             const alertModal = document.getElementById('alert-modal');
             const alertModalTitle = document.getElementById('alert-modal-title');
@@ -986,7 +985,6 @@
             const availableMenusList = document.getElementById('available-menus-list');
             const reloadMenusListBtn = document.getElementById('reload-menus-list-btn');
             const clearCacheBtn = document.getElementById('clear-cache-btn');
-            // AI Modal
             const askAiBtn = document.getElementById('ask-ai-btn');
             const aiModal = document.getElementById('ai-modal');
             const closeAiModalBtn = document.getElementById('close-ai-modal-btn');
@@ -1030,18 +1028,24 @@
             }
             
             // --- Contextual UI Adjustments & Initialization ---
-            if (isInExe) {
+            const urlSel = new URLSearchParams(window.location.search).get('sel');
+            const isExternalCall = isInExe || !!urlSel;
+
+            if (isExternalCall) {
                 // Hide elements not needed inside the eXeLearning plugin view
                 const headerEl = document.querySelector('.header');
                 const footerEl = document.querySelector('.footer');
                 if (headerEl) headerEl.style.display = 'none';
                 if (footerEl) footerEl.style.display = 'none';
 
-                // Inside eXe, we "Insert", so "Copy" is less relevant and can be hidden.
-                if (copyButton) copyButton.style.display = 'none';
+                // In external calls, Insert is the primary action
+                if (insertButton) insertButton.style.display = 'inline-block';
+                // Copy might be less relevant but can be kept. For eXe, it's often hidden.
+                if (isInExe && copyButton) copyButton.style.display = 'none';
+
 
                 // Also, limit the available delimiters for the eXe context
-                if (delimiterSelector) {
+                if (delimiterSelector && isInExe) {
                     const allowedDelims = ['none', 'parentheses', 'brackets'];
                     Array.from(delimiterSelector.options).forEach(opt => {
                         if (!allowedDelims.includes(opt.value)) {
@@ -1055,12 +1059,11 @@
                 }
 
             } else {
-                // When running standalone (outside eXe), the "Insert" button has no target editor.
+                // When running standalone (outside eXe/external call), the "Insert" button has no target editor.
                 if (insertButton) insertButton.style.display = 'none';
             }
 
-            // --- Prefill from eXeLearning Selection (URL Parameter) ---
-            const urlSel = new URLSearchParams(window.location.search).get('sel');
+            // --- Prefill from URL Parameter ---
             if (urlSel) {
                 const originalSel = decodeURIComponent(urlSel);
                 autoPickDelimiter(originalSel);
@@ -1443,18 +1446,12 @@
                         const button = document.createElement('button');
                         button.className = 'toolbar-btn';
                         
-                        // ===== MODIFICATION START =====
-                        // 1. Translate the LaTeX content using the _() function, using display as primary and latex as fallback.
                         const translatedLatex = _(elemento.display || elemento.latex);
                         
-                        // 2. Use the translated version for the data-latex attribute (what gets inserted).
                         button.dataset.latex = translatedLatex;
                         
-                        // 3. Use the translated version for the button's visible content.
                         button.innerHTML = `\\(${translatedLatex}\\)`;
-                        // ===== MODIFICATION END =====
                         
-                        // The title is still translated independently.
                         button.title = _(elemento.title);
                         
                         contentDiv.appendChild(button);
@@ -1548,7 +1545,7 @@
                 }
                 try {
                      const tinymceRef = parent && parent.tinymce ? parent.tinymce : null;
-                    if (isInExe && tinymceRef && tinymceRef.activeEditor) {
+                    if (isExternalCall && tinymceRef && tinymceRef.activeEditor) {
                         tinymceRef.activeEditor.execCommand('mceReplaceContent', false, latexToInsert);
                         tinymceRef.activeEditor.windowManager?.close();
                         return;
