@@ -5,52 +5,47 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>EdiCuaTeX - LaTeX Equation Editor</title>
     <script>
-        // Check if it's in eXe and translate (if possible)
-        let isInExe = parent && typeof(parent.eXeLearning) == 'object' && typeof(parent.tinymce) == 'object';
+        let isInExe = false;
+        try {
+            // Detección segura de eXeLearning
+            isInExe = parent && parent !== window && typeof(parent.eXeLearning) == 'object' && typeof(parent.tinymce) == 'object';
+        } catch (e) {
+            console.warn('Parent inaccesible, no estamos en eXeLearning');
+        }
+
         // Redefine _ function once the DOM is loaded and $i18n is available
         document.addEventListener("DOMContentLoaded", function() {
             _ = function(str){
                 let res = str;
                 let appLang = document.documentElement.lang;
-                // Ensure $i18n is defined
                 if (typeof $i18n === 'undefined') {
                     console.warn('$i18n dictionary not found. Using fallback.');
-                    // Fallback for eXe environment
                     if (isInExe && parent && typeof parent._ === 'function') return parent._(str);
-                    // Fallback for standalone
                     return str;
                 }
-                // Default language is English (from eXe key)
                 let translations = $i18n['eXe'];
-                // Check if translations for the current language exist
                 if (typeof $i18n[appLang] == 'object') {
                     translations = $i18n[appLang];
                 }
-                // Return the translation if available
                 if (typeof translations[str] == 'string') {
                     return translations[str];
                 }
-                // If not found in local dictionary, try eXe's dictionary
                 if (isInExe && parent && typeof parent._ === 'function') {
                     return parent._(str);
                 }
-                // Otherwise, return the original string
                 return res;
             }
 
-            // After defining _, update all texts
             if (!isInExe) {
                 setupLanguageSelector();
             }
             updateAllDynamicTexts();
-            addFooter(); // Ensure footer is translated on load
+            addFooter();
         });
 
         if (isInExe) {
-            // Set HTML lang based on eXe's language
             document.documentElement.lang = parent.eXeLearning.app.locale.lang;
         } else {
-            // Setup for standalone execution (browser language detection or localStorage)
             const savedLang = localStorage.getItem('userLanguage');
             const browserLang = navigator.language.split('-')[0];
             const supportedLangs = ['en', 'es', 'ca'];
@@ -82,7 +77,6 @@
             startup: {
                 ready: () => {
                     MathJax.startup.defaultReady();
-                    // This function is defined below in the main script
                     if (window.initializeLatexEditor) {
                         window.initializeLatexEditor();
                     }
@@ -1043,7 +1037,6 @@
                 // Copy might be less relevant but can be kept. For eXe, it's often hidden.
                 if (isInExe && copyButton) copyButton.style.display = 'none';
 
-
                 // Also, limit the available delimiters for the eXe context
                 if (delimiterSelector && isInExe) {
                     const allowedDelims = ['none', 'parentheses', 'brackets'];
@@ -1070,9 +1063,11 @@
                 latexInput.value = stripLatexDelimiters(originalSel);
             }
 
+            // --- INICIO DE LA CORRECCIÓN ---
             // Prefill from other potential eXe dialogs (legacy support)
             try {
-                if (window.opener && window.opener.PasteMathDialog && window.opener.PasteMathDialog.mathEditor && window.opener.PasteMathDialog.mathEditor.field) {
+                // This block is wrapped in try/catch to avoid cross-origin errors
+                if (window.opener && window.opener.location.origin === window.location.origin && window.opener.PasteMathDialog && window.opener.PasteMathDialog.mathEditor && window.opener.PasteMathDialog.mathEditor.field) {
                     const parentLatex = window.opener.PasteMathDialog.mathEditor.field.val().trim();
                     if (parentLatex) {
                         autoPickDelimiter(parentLatex);
@@ -1082,6 +1077,7 @@
             } catch (err) {
                 console.warn(_('Could not get code from parent dialog:'), err);
             }
+            // --- FIN DE LA CORRECCIÓN ---
 
             // --- CONFIG & STATE ---
             const MANIFEST_URL = './menus.json';
