@@ -5,12 +5,16 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>EdiCuaTeX - LaTeX Equation Editor</title>
     <script>
+        // Check if it's in eXe and translate (if possible)
         let isInExe = false;
         try {
-            // Detección segura de eXeLearning
-            isInExe = parent && parent !== window && typeof(parent.eXeLearning) == 'object' && typeof(parent.tinymce) == 'object';
+          // Detección segura: si estamos en un iframe y podemos acceder a eXeLearning, es un entorno válido.
+          if (window.parent !== window && typeof parent.eXeLearning === 'object' && typeof parent.tinymce === 'object') {
+            isInExe = true;
+          }
         } catch (e) {
-            console.warn('Parent inaccesible, no estamos en eXeLearning');
+          console.warn('Parent inaccesible: quizá cross-origin', e);
+          isInExe = false;
         }
 
         // Redefine _ function once the DOM is loaded and $i18n is available
@@ -18,34 +22,43 @@
             _ = function(str){
                 let res = str;
                 let appLang = document.documentElement.lang;
+                // Ensure $i18n is defined
                 if (typeof $i18n === 'undefined') {
                     console.warn('$i18n dictionary not found. Using fallback.');
+                    // Fallback for eXe environment
                     if (isInExe && parent && typeof parent._ === 'function') return parent._(str);
+                    // Fallback for standalone
                     return str;
                 }
+                // Default language is English (from eXe key)
                 let translations = $i18n['eXe'];
+                // Check if translations for the current language exist
                 if (typeof $i18n[appLang] == 'object') {
                     translations = $i18n[appLang];
                 }
+                // Return the translation if available
                 if (typeof translations[str] == 'string') {
                     return translations[str];
                 }
+                // If not found in local dictionary, try eXe's dictionary
                 if (isInExe && parent && typeof parent._ === 'function') {
                     return parent._(str);
                 }
+                // Otherwise, return the original string
                 return res;
             }
-
+            // After defining _, update all texts
             if (!isInExe) {
                 setupLanguageSelector();
             }
             updateAllDynamicTexts();
-            addFooter();
+            addFooter(); // Ensure footer is translated on load
         });
-
         if (isInExe) {
+            // Set HTML lang based on eXe's language
             document.documentElement.lang = parent.eXeLearning.app.locale.lang;
         } else {
+            // Setup for standalone execution (browser language detection or localStorage)
             const savedLang = localStorage.getItem('userLanguage');
             const browserLang = navigator.language.split('-')[0];
             const supportedLangs = ['en', 'es', 'ca'];
@@ -77,6 +90,7 @@
             startup: {
                 ready: () => {
                     MathJax.startup.defaultReady();
+                    // This function is defined below in the main script
                     if (window.initializeLatexEditor) {
                         window.initializeLatexEditor();
                     }
@@ -139,14 +153,12 @@
             opacity: 0.9;
             margin: 0;
         }
-
         .language-selector {
             display: none; /* Hidden by default, shown by JS if not in eXe */
             justify-content: center;
             gap: 10px;
             margin-top: 15px;
         }
-
         .lang-btn {
             background-color: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -157,11 +169,9 @@
             transition: background-color 0.3s;
             font-weight: 600;
         }
-
         .lang-btn:hover {
             background-color: rgba(255, 255, 255, 0.4);
         }
-
         .lang-btn.active {
             background-color: white;
             color: var(--primary-dark);
@@ -239,7 +249,6 @@
             color: var(--primary-color);
             transform: rotate(45deg);
         }
-
         #maximize-btn:hover {
              transform: scale(1.2);
         }
@@ -317,7 +326,6 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
         }
-
         .toolbar-btn svg {
             max-width: 100%;
             height: auto;
@@ -966,11 +974,12 @@
             const searchInput = document.getElementById('search-input');
             const clearSearchBtn = document.getElementById('clear-search-btn');
             const settingsBtn = document.getElementById('settings-btn');
+            // Modals
             const settingsModal = document.getElementById('settings-modal');
             const closeSettingsBtn = document.getElementById('close-settings-btn');
             const urlInput = document.getElementById('url-input');
             const fileInput = document.getElementById('file-input');
-            const loadUrlBtn = document.getElementById('load-url-btn');
+            const loadUrlBtn = document.getElementById('load-url-btn'); // <-- New button reference
             const modalFeedback = document.getElementById('modal-feedback');
             const alertModal = document.getElementById('alert-modal');
             const alertModalTitle = document.getElementById('alert-modal-title');
@@ -979,6 +988,7 @@
             const availableMenusList = document.getElementById('available-menus-list');
             const reloadMenusListBtn = document.getElementById('reload-menus-list-btn');
             const clearCacheBtn = document.getElementById('clear-cache-btn');
+            // AI Modal
             const askAiBtn = document.getElementById('ask-ai-btn');
             const aiModal = document.getElementById('ai-modal');
             const closeAiModalBtn = document.getElementById('close-ai-modal-btn');
@@ -1037,6 +1047,7 @@
                 // Copy might be less relevant but can be kept. For eXe, it's often hidden.
                 if (isInExe && copyButton) copyButton.style.display = 'none';
 
+
                 // Also, limit the available delimiters for the eXe context
                 if (delimiterSelector && isInExe) {
                     const allowedDelims = ['none', 'parentheses', 'brackets'];
@@ -1063,21 +1074,22 @@
                 latexInput.value = stripLatexDelimiters(originalSel);
             }
 
-            // --- INICIO DE LA CORRECCIÓN ---
             // Prefill from other potential eXe dialogs (legacy support)
-            try {
-                // This block is wrapped in try/catch to avoid cross-origin errors
-                if (window.opener && window.opener.location.origin === window.location.origin && window.opener.PasteMathDialog && window.opener.PasteMathDialog.mathEditor && window.opener.PasteMathDialog.mathEditor.field) {
-                    const parentLatex = window.opener.PasteMathDialog.mathEditor.field.val().trim();
-                    if (parentLatex) {
-                        autoPickDelimiter(parentLatex);
-                        latexInput.value = stripLatexDelimiters(parentLatex);
+            if (isInExe) {
+                try {
+                    const dialog = parent.PasteMathDialog;
+                    if (dialog?.mathEditor?.field) {
+                        const parentLatex = dialog.mathEditor.field.val().trim();
+                        if (parentLatex) {
+                            autoPickDelimiter(parentLatex);
+                            latexInput.value = stripLatexDelimiters(parentLatex);
+                        }
                     }
+                } catch (err) {
+                    console.warn('No se pudo obtener el código del diálogo padre:', err);
                 }
-            } catch (err) {
-                console.warn(_('Could not get code from parent dialog:'), err);
             }
-            // --- FIN DE LA CORRECCIÓN ---
+
 
             // --- CONFIG & STATE ---
             const MANIFEST_URL = './menus.json';
