@@ -1073,10 +1073,11 @@
                             latexInput.value = stripLatexDelimiters(parentLatex);
                         }
                     }
-                } catch (err) {
-                    console.warn('No se pudo obtener el código del diálogo padre:', err);
+                } catch (e) {
+                    console.warn('No se pudo obtener el código del diálogo padre:', e);
                 }
             }
+
 
             // --- CONFIG & STATE ---
             const MANIFEST_URL = './menus.json';
@@ -1195,7 +1196,7 @@
                     const tabButton = document.createElement('button');
                     tabButton.className = 'tab-btn';
                     tabButton.dataset.tab = categoria.id;
-                    tabButton.textContent = _(categoria.nombre);
+                    tabButton.textContent = _(categoria.nombre); // Translate category name
                     tabsContainer.appendChild(tabButton);
                     const contentDiv = document.createElement('div');
                     contentDiv.id = `tab-${categoria.id}`;
@@ -1203,6 +1204,7 @@
                     toolbar.appendChild(contentDiv);
                 });
 
+                // Set active tab after creating all of them
                 let activeTab = tabsContainer.querySelector('.tab-btn.active');
                 if (!activeTab) {
                     const firstTab = tabsContainer.querySelector('[data-tab="recientes"]') || tabsContainer.querySelector('.tab-btn');
@@ -1217,6 +1219,7 @@
                    if (activeContent) activeContent.classList.add('active');
                    renderTabContent(activeTab.dataset.tab, allCategories);
                 } else {
+                   // Fallback if no tabs exist at all
                    toolbar.innerHTML = `<p>${_('No menus found.')}</p>`;
                 }
                 
@@ -1272,8 +1275,8 @@
             }
 
             function showAlert(title, htmlMessage) {
-                alertModalTitle.textContent = _(title);
-                alertModalMessage.innerHTML = htmlMessage;
+                alertModalTitle.textContent = _(title); // Translate title
+                alertModalMessage.innerHTML = htmlMessage; // Message may contain HTML
                 alertModal.classList.add('active');
             }
 
@@ -1285,7 +1288,7 @@
                 modalButtons.innerHTML = '';
                 buttons.forEach(btnInfo => {
                     const button = document.createElement('button');
-                    button.textContent = _(btnInfo.text);
+                    button.textContent = _(btnInfo.text); // Translate button text
                     button.className = `btn ${btnInfo.class}`;
                     button.onclick = () => { if(btnInfo.action) btnInfo.action(); document.getElementById('image-modal').classList.remove('active'); };
                     modalButtons.appendChild(button);
@@ -1294,7 +1297,7 @@
             }
 
             function showModalFeedback(message, isError = false) {
-                modalFeedback.textContent = message;
+                modalFeedback.textContent = message; // Already translated when called
                 modalFeedback.style.color = isError ? 'var(--danger-color)' : 'var(--success-color)';
                 setTimeout(() => modalFeedback.textContent = '', 3000);
             }
@@ -1314,7 +1317,7 @@
             }
 
             function showAiFeedback(message, isError = false) {
-                aiFeedback.textContent = message;
+                aiFeedback.textContent = message; // Already translated
                 aiFeedback.style.color = isError ? 'var(--danger-color)' : 'var(--success-color)';
                 aiFeedback.style.opacity = '1';
                 setTimeout(() => { if (aiFeedback.textContent === message) { aiFeedback.style.opacity = '0'; } }, 4000);
@@ -1550,23 +1553,26 @@
             settingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
             closeSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('active'));
             
+            // --- NEW EVENT LISTENER FOR URL BUTTON ---
             loadUrlBtn.addEventListener('click', async () => {
                 const url = urlInput.value.trim();
                 if (!url) {
                     showModalFeedback(_('Please enter a URL.'), true);
                     return;
                 }
+                // Use the URL as ID and derive a name from the filename
                 const menuName = url.substring(url.lastIndexOf('/') + 1) || 'menu.json';
                 const menuInfo = {
-                    id: url,
+                    id: url, // The URL is a unique identifier
                     url: url,
                     source: 'url',
                     name: menuName
                 };
                 
+                // addMenu handles UI reload and localStorage saving
                 await addMenu(menuInfo); 
                 showModalFeedback(_('Menu loaded successfully.'), false);
-                urlInput.value = '';
+                urlInput.value = ''; // Clear the input after loading
             });
 
             fileInput.addEventListener('change', () => {
