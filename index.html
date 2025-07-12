@@ -6,17 +6,7 @@
     <title>EdiCuaTeX - LaTeX Equation Editor</title>
     <script>
         // Check if it's in eXe and translate (if possible)
-        let isInExe = false;
-        try {
-          // Detección segura: si estamos en un iframe y podemos acceder a eXeLearning, es un entorno válido.
-          if (window.parent !== window && typeof parent.eXeLearning === 'object' && typeof parent.tinymce === 'object') {
-            isInExe = true;
-          }
-        } catch (e) {
-          console.warn('Parent inaccesible: quizá cross-origin', e);
-          isInExe = false;
-        }
-
+        let isInExe = parent && typeof(parent.eXeLearning) == 'object' && typeof(parent.tinymce) == 'object';
         // Redefine _ function once the DOM is loaded and $i18n is available
         document.addEventListener("DOMContentLoaded", function() {
             _ = function(str){
@@ -57,6 +47,7 @@
         });
 
         if (isInExe) {
+            // Set HTML lang based on eXe's language
             document.documentElement.lang = parent.eXeLearning.app.locale.lang;
         } else {
             // Setup for standalone execution (browser language detection or localStorage)
@@ -931,16 +922,19 @@
             document.title = _('EdiCuaTeX - LaTeX Equation Editor');
             document.querySelectorAll('[data-i18n-key]').forEach(el => {
                 const key = el.getAttribute('data-i18n-key');
+                // Special handling for elements with mixed content (e.g., text and a link)
                 if (el.querySelector('a[data-i18n-key]')) {
                     const link = el.querySelector('a');
                     const linkKey = link.getAttribute('data-i18n-key');
                     link.textContent = _(linkKey);
+                    // The main text needs a placeholder for the link, e.g., "Text with %s"
+                    // This is complex, so we just translate the text part for now.
                     const textNode = Array.from(el.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
                     if (textNode) {
                        textNode.textContent = _(key) + " ";
                     }
                 } else if (el.closest('button#ask-ai-btn')) {
-                    el.textContent = " " + _(key);
+                    el.textContent = " " + _(key); // Keep space for emoji
                 } else {
                     el.textContent = _(key);
                 }
@@ -948,11 +942,13 @@
             document.querySelectorAll('[data-i18n-title]').forEach(el => el.title = _(el.getAttribute('data-i18n-title')));
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => el.placeholder = _(el.getAttribute('data-i18n-placeholder')));
             
+            // Rebuild UI parts that are created dynamically
             if (window.rebuildToolbarAndUI) {
                 window.rebuildToolbarAndUI();
             }
         }
         
+        // This function must be available globally to be called from the DOMContentLoaded listener
         function addFooter() {
             const footer = document.getElementById('page-footer');
             if (footer) {
@@ -976,11 +972,12 @@
             const searchInput = document.getElementById('search-input');
             const clearSearchBtn = document.getElementById('clear-search-btn');
             const settingsBtn = document.getElementById('settings-btn');
+            // Modals
             const settingsModal = document.getElementById('settings-modal');
             const closeSettingsBtn = document.getElementById('close-settings-btn');
             const urlInput = document.getElementById('url-input');
             const fileInput = document.getElementById('file-input');
-            const loadUrlBtn = document.getElementById('load-url-btn'); 
+            const loadUrlBtn = document.getElementById('load-url-btn'); // <-- New button reference
             const modalFeedback = document.getElementById('modal-feedback');
             const alertModal = document.getElementById('alert-modal');
             const alertModalTitle = document.getElementById('alert-modal-title');
@@ -989,6 +986,7 @@
             const availableMenusList = document.getElementById('available-menus-list');
             const reloadMenusListBtn = document.getElementById('reload-menus-list-btn');
             const clearCacheBtn = document.getElementById('clear-cache-btn');
+            // AI Modal
             const askAiBtn = document.getElementById('ask-ai-btn');
             const aiModal = document.getElementById('ai-modal');
             const closeAiModalBtn = document.getElementById('close-ai-modal-btn');
@@ -1004,7 +1002,12 @@
             function stripLatexDelimiters(code) {
                 if (!code) return code;
                 const trimmed = code.trim();
-                const patterns = [ /^\\\(([\s\S]+?)\\\)$/, /^\\\[([\s\S]+?)\\\]$/, /^\$\$([\s\S]+?)\$\$$/, /^\$([\s\S]+?)\$$/ ];
+                const patterns = [
+                    /^\\\(([\s\S]+?)\\\)$/,   // \( ... \)
+                    /^\\\[([\s\S]+?)\\\]$/,   // \\[ ... \\]
+                    /^\$\$([\s\S]+?)\$\$$/,     // $$ ... $$
+                    /^\$([\s\S]+?)\$$/        // $ ... $
+                ];
                 for (const p of patterns) {
                     const m = trimmed.match(p);
                     if (m) return m[1].trim();
@@ -1016,68 +1019,66 @@
                 const selectorEl = document.getElementById('delimiter-selector');
                 if(!selectorEl || !latexFragment) return;
                 const frag = latexFragment.trim();
+                
                 if(/^\\\(.+?\\\)$/.test(frag)){ selectorEl.value = 'parentheses'; return; }
                 if(/^\\\[([\s\S]+?)\\\]$/.test(frag)){ selectorEl.value = 'brackets'; return; }
                 if(/^\$\$([\s\S]+?)\$\$$/.test(frag)){ selectorEl.value = 'double_dollar'; return; }
                 if(/^\$([\s\S]+?)\$$/.test(frag)){ selectorEl.value = 'single_dollar'; return; }
+
+                // If no delimiter is found, default based on context
                 selectorEl.value = isInExe ? 'parentheses' : 'none';
             }
             
             // --- Contextual UI Adjustments & Initialization ---
-            const urlSel = new URLSearchParams(window.location.search).get('sel');
-            const isExternalCall = isInExe || !!urlSel;
-
-            if (isExternalCall) {
+            if (isInExe) {
+                // Hide elements not needed inside the eXeLearning plugin view
                 const headerEl = document.querySelector('.header');
                 const footerEl = document.querySelector('.footer');
                 if (headerEl) headerEl.style.display = 'none';
                 if (footerEl) footerEl.style.display = 'none';
 
-                if (insertButton) insertButton.style.display = 'inline-block';
-                if (copyButton) copyButton.style.display = 'inline-block';
-                
-                if (isInExe && copyButton) copyButton.style.display = 'none';
+                // Inside eXe, we "Insert", so "Copy" is less relevant and can be hidden.
+                if (copyButton) copyButton.style.display = 'none';
 
-                if (delimiterSelector && isInExe) {
+                // Also, limit the available delimiters for the eXe context
+                if (delimiterSelector) {
                     const allowedDelims = ['none', 'parentheses', 'brackets'];
                     Array.from(delimiterSelector.options).forEach(opt => {
                         if (!allowedDelims.includes(opt.value)) {
                             opt.remove();
                         }
                     });
+                     // Set a sensible default if no formula is pre-filled
                     if (!latexInput.value.trim()) {
                         delimiterSelector.value = 'parentheses';
                     }
                 }
 
             } else {
+                // When running standalone (outside eXe), the "Insert" button has no target editor.
                 if (insertButton) insertButton.style.display = 'none';
             }
 
-            // --- Prefill from URL Parameter ---
+            // --- Prefill from eXeLearning Selection (URL Parameter) ---
+            const urlSel = new URLSearchParams(window.location.search).get('sel');
             if (urlSel) {
                 const originalSel = decodeURIComponent(urlSel);
                 autoPickDelimiter(originalSel);
                 latexInput.value = stripLatexDelimiters(originalSel);
             }
 
-            // --- Prefill from eXeLearning Dialog (safe access) ---
-            if (isInExe) {
-                try {
-                    const dialog = parent.PasteMathDialog;
-                    const field = dialog?.mathEditor?.field;
-                    if (field) {
-                        const parentLatex = field.val().trim();
-                        if (parentLatex) {
-                            autoPickDelimiter(parentLatex);
-                            latexInput.value = stripLatexDelimiters(parentLatex);
-                        }
+            // Prefill from other potential eXe dialogs (legacy support)
+            try {
+                if (window.opener && window.opener.PasteMathDialog && window.opener.PasteMathDialog.mathEditor && window.opener.PasteMathDialog.mathEditor.field) {
+                    const parentLatex = window.opener.PasteMathDialog.mathEditor.field.val().trim();
+                    if (parentLatex) {
+                        autoPickDelimiter(parentLatex);
+                        latexInput.value = stripLatexDelimiters(parentLatex);
                     }
-                } catch (err) {
-                    console.warn('No se pudo obtener el código del diálogo padre:', err);
                 }
+            } catch (err) {
+                console.warn(_('Could not get code from parent dialog:'), err);
             }
-
 
             // --- CONFIG & STATE ---
             const MANIFEST_URL = './menus.json';
@@ -1196,7 +1197,7 @@
                     const tabButton = document.createElement('button');
                     tabButton.className = 'tab-btn';
                     tabButton.dataset.tab = categoria.id;
-                    tabButton.textContent = _(categoria.nombre);
+                    tabButton.textContent = _(categoria.nombre); // Translate category name
                     tabsContainer.appendChild(tabButton);
                     const contentDiv = document.createElement('div');
                     contentDiv.id = `tab-${categoria.id}`;
@@ -1204,6 +1205,7 @@
                     toolbar.appendChild(contentDiv);
                 });
 
+                // Set active tab after creating all of them
                 let activeTab = tabsContainer.querySelector('.tab-btn.active');
                 if (!activeTab) {
                     const firstTab = tabsContainer.querySelector('[data-tab="recientes"]') || tabsContainer.querySelector('.tab-btn');
@@ -1218,6 +1220,7 @@
                    if (activeContent) activeContent.classList.add('active');
                    renderTabContent(activeTab.dataset.tab, allCategories);
                 } else {
+                   // Fallback if no tabs exist at all
                    toolbar.innerHTML = `<p>${_('No menus found.')}</p>`;
                 }
                 
@@ -1273,8 +1276,8 @@
             }
 
             function showAlert(title, htmlMessage) {
-                alertModalTitle.textContent = _(title);
-                alertModalMessage.innerHTML = htmlMessage;
+                alertModalTitle.textContent = _(title); // Translate title
+                alertModalMessage.innerHTML = htmlMessage; // Message may contain HTML
                 alertModal.classList.add('active');
             }
 
@@ -1286,7 +1289,7 @@
                 modalButtons.innerHTML = '';
                 buttons.forEach(btnInfo => {
                     const button = document.createElement('button');
-                    button.textContent = _(btnInfo.text);
+                    button.textContent = _(btnInfo.text); // Translate button text
                     button.className = `btn ${btnInfo.class}`;
                     button.onclick = () => { if(btnInfo.action) btnInfo.action(); document.getElementById('image-modal').classList.remove('active'); };
                     modalButtons.appendChild(button);
@@ -1295,7 +1298,7 @@
             }
 
             function showModalFeedback(message, isError = false) {
-                modalFeedback.textContent = message;
+                modalFeedback.textContent = message; // Already translated when called
                 modalFeedback.style.color = isError ? 'var(--danger-color)' : 'var(--success-color)';
                 setTimeout(() => modalFeedback.textContent = '', 3000);
             }
@@ -1315,7 +1318,7 @@
             }
 
             function showAiFeedback(message, isError = false) {
-                aiFeedback.textContent = message;
+                aiFeedback.textContent = message; // Already translated
                 aiFeedback.style.color = isError ? 'var(--danger-color)' : 'var(--success-color)';
                 aiFeedback.style.opacity = '1';
                 setTimeout(() => { if (aiFeedback.textContent === message) { aiFeedback.style.opacity = '0'; } }, 4000);
@@ -1440,12 +1443,18 @@
                         const button = document.createElement('button');
                         button.className = 'toolbar-btn';
                         
+                        // ===== MODIFICATION START =====
+                        // 1. Translate the LaTeX content using the _() function, using display as primary and latex as fallback.
                         const translatedLatex = _(elemento.display || elemento.latex);
                         
+                        // 2. Use the translated version for the data-latex attribute (what gets inserted).
                         button.dataset.latex = translatedLatex;
                         
+                        // 3. Use the translated version for the button's visible content.
                         button.innerHTML = `\\(${translatedLatex}\\)`;
+                        // ===== MODIFICATION END =====
                         
+                        // The title is still translated independently.
                         button.title = _(elemento.title);
                         
                         contentDiv.appendChild(button);
@@ -1538,39 +1547,39 @@
                     default: latexToInsert = rawLatex;
                 }
                 try {
-                    const host = isInExe ? parent : (window.opener || null);
-                    if (isExternalCall && host?.tinymce?.activeEditor) {
-                        host.tinymce.activeEditor.execCommand('mceReplaceContent', false, latexToInsert);
-                        host.tinymce.activeEditor.windowManager?.close();
+                     const tinymceRef = parent && parent.tinymce ? parent.tinymce : null;
+                    if (isInExe && tinymceRef && tinymceRef.activeEditor) {
+                        tinymceRef.activeEditor.execCommand('mceReplaceContent', false, latexToInsert);
+                        tinymceRef.activeEditor.windowManager?.close();
                         return;
                     }
-                } catch(err){ 
-                    console.error('Insert Error:', err);
-                }
-                // Fallback: si no puede insertar, copia y cierra.
-                navigator.clipboard.writeText(latexToInsert).then(() => window.close()).catch(() => window.close());
+                } catch(err){ console.error('Insert Error:', err);}
+                window.close();
             });
             viewImageButton.addEventListener('click', handleViewImage);
             settingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
             closeSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('active'));
             
+            // --- NEW EVENT LISTENER FOR URL BUTTON ---
             loadUrlBtn.addEventListener('click', async () => {
                 const url = urlInput.value.trim();
                 if (!url) {
                     showModalFeedback(_('Please enter a URL.'), true);
                     return;
                 }
+                // Use the URL as ID and derive a name from the filename
                 const menuName = url.substring(url.lastIndexOf('/') + 1) || 'menu.json';
                 const menuInfo = {
-                    id: url,
+                    id: url, // The URL is a unique identifier
                     url: url,
                     source: 'url',
                     name: menuName
                 };
                 
+                // addMenu handles UI reload and localStorage saving
                 await addMenu(menuInfo); 
                 showModalFeedback(_('Menu loaded successfully.'), false);
-                urlInput.value = '';
+                urlInput.value = ''; // Clear the input after loading
             });
 
             fileInput.addEventListener('change', () => {
