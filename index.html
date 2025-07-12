@@ -1073,8 +1073,8 @@
                             latexInput.value = stripLatexDelimiters(parentLatex);
                         }
                     }
-                } catch (e) {
-                    console.warn('No se pudo obtener el código del diálogo padre:', e);
+                } catch (err) {
+                    console.warn('No se pudo obtener el código del diálogo padre:', err);
                 }
             }
 
@@ -1196,7 +1196,7 @@
                     const tabButton = document.createElement('button');
                     tabButton.className = 'tab-btn';
                     tabButton.dataset.tab = categoria.id;
-                    tabButton.textContent = _(categoria.nombre); // Translate category name
+                    tabButton.textContent = _(categoria.nombre);
                     tabsContainer.appendChild(tabButton);
                     const contentDiv = document.createElement('div');
                     contentDiv.id = `tab-${categoria.id}`;
@@ -1204,7 +1204,6 @@
                     toolbar.appendChild(contentDiv);
                 });
 
-                // Set active tab after creating all of them
                 let activeTab = tabsContainer.querySelector('.tab-btn.active');
                 if (!activeTab) {
                     const firstTab = tabsContainer.querySelector('[data-tab="recientes"]') || tabsContainer.querySelector('.tab-btn');
@@ -1219,7 +1218,6 @@
                    if (activeContent) activeContent.classList.add('active');
                    renderTabContent(activeTab.dataset.tab, allCategories);
                 } else {
-                   // Fallback if no tabs exist at all
                    toolbar.innerHTML = `<p>${_('No menus found.')}</p>`;
                 }
                 
@@ -1275,8 +1273,8 @@
             }
 
             function showAlert(title, htmlMessage) {
-                alertModalTitle.textContent = _(title); // Translate title
-                alertModalMessage.innerHTML = htmlMessage; // Message may contain HTML
+                alertModalTitle.textContent = _(title);
+                alertModalMessage.innerHTML = htmlMessage;
                 alertModal.classList.add('active');
             }
 
@@ -1288,7 +1286,7 @@
                 modalButtons.innerHTML = '';
                 buttons.forEach(btnInfo => {
                     const button = document.createElement('button');
-                    button.textContent = _(btnInfo.text); // Translate button text
+                    button.textContent = _(btnInfo.text);
                     button.className = `btn ${btnInfo.class}`;
                     button.onclick = () => { if(btnInfo.action) btnInfo.action(); document.getElementById('image-modal').classList.remove('active'); };
                     modalButtons.appendChild(button);
@@ -1297,7 +1295,7 @@
             }
 
             function showModalFeedback(message, isError = false) {
-                modalFeedback.textContent = message; // Already translated when called
+                modalFeedback.textContent = message;
                 modalFeedback.style.color = isError ? 'var(--danger-color)' : 'var(--success-color)';
                 setTimeout(() => modalFeedback.textContent = '', 3000);
             }
@@ -1317,7 +1315,7 @@
             }
 
             function showAiFeedback(message, isError = false) {
-                aiFeedback.textContent = message; // Already translated
+                aiFeedback.textContent = message;
                 aiFeedback.style.color = isError ? 'var(--danger-color)' : 'var(--success-color)';
                 aiFeedback.style.opacity = '1';
                 setTimeout(() => { if (aiFeedback.textContent === message) { aiFeedback.style.opacity = '0'; } }, 4000);
@@ -1540,39 +1538,39 @@
                     default: latexToInsert = rawLatex;
                 }
                 try {
-                     const tinymceRef = parent && parent.tinymce ? parent.tinymce : null;
-                    if (isExternalCall && tinymceRef && tinymceRef.activeEditor) {
-                        tinymceRef.activeEditor.execCommand('mceReplaceContent', false, latexToInsert);
-                        tinymceRef.activeEditor.windowManager?.close();
+                    const host = isInExe ? parent : (window.opener || null);
+                    if (isExternalCall && host?.tinymce?.activeEditor) {
+                        host.tinymce.activeEditor.execCommand('mceReplaceContent', false, latexToInsert);
+                        host.tinymce.activeEditor.windowManager?.close();
                         return;
                     }
-                } catch(err){ console.error('Insert Error:', err);}
-                window.close();
+                } catch(err){ 
+                    console.error('Insert Error:', err);
+                }
+                // Fallback: si no puede insertar, copia y cierra.
+                navigator.clipboard.writeText(latexToInsert).then(() => window.close()).catch(() => window.close());
             });
             viewImageButton.addEventListener('click', handleViewImage);
             settingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
             closeSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('active'));
             
-            // --- NEW EVENT LISTENER FOR URL BUTTON ---
             loadUrlBtn.addEventListener('click', async () => {
                 const url = urlInput.value.trim();
                 if (!url) {
                     showModalFeedback(_('Please enter a URL.'), true);
                     return;
                 }
-                // Use the URL as ID and derive a name from the filename
                 const menuName = url.substring(url.lastIndexOf('/') + 1) || 'menu.json';
                 const menuInfo = {
-                    id: url, // The URL is a unique identifier
+                    id: url,
                     url: url,
                     source: 'url',
                     name: menuName
                 };
                 
-                // addMenu handles UI reload and localStorage saving
                 await addMenu(menuInfo); 
                 showModalFeedback(_('Menu loaded successfully.'), false);
-                urlInput.value = ''; // Clear the input after loading
+                urlInput.value = '';
             });
 
             fileInput.addEventListener('change', () => {
