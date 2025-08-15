@@ -659,13 +659,25 @@ async function initializeLatexEditor() {
             default: latexToInsert = rawLatex;
         }
         try {
-             const tinymceRef = parent && parent.tinymce ? parent.tinymce : null;
+            // --- eXeLearning Integration (Legacy) ---
+            const tinymceRef = parent && parent.tinymce ? parent.tinymce : null;
             if (isInExe && tinymceRef && tinymceRef.activeEditor) {
                 tinymceRef.activeEditor.execCommand('mceReplaceContent', false, latexToInsert);
                 tinymceRef.activeEditor.windowManager?.close();
-                return;
+                return; // Success, exit
             }
-        } catch(err){ console.error('Insert Error:', err);}
+        } catch (err) {
+            console.warn('Could not use TinyMCE integration:', err);
+        }
+
+        // --- Generic Integration using postMessage (for other apps) ---
+        if (window.opener) {
+            // The '*' means we don't restrict the target origin.
+            // For higher security, this could be replaced with the specific URL
+            // of the application that is allowed to open the editor.
+            window.opener.postMessage(latexToInsert, '*');
+        }
+
         window.close();
     });
     viewImageButton.addEventListener('click', handleViewImage);
