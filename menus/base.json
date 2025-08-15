@@ -172,7 +172,7 @@
           "title": "Overbrace"
         }
       ],
-      "isCollapsed": true
+      "isCollapsed": false
     },
     {
       "nombre": "Operators and relations",
@@ -535,7 +535,7 @@
           "title": "Measured angle"
         }
       ],
-      "isCollapsed": true
+      "isCollapsed": false
     },
     {
       "nombre": "Sets",
@@ -748,12 +748,6 @@
         },
         {
           "type": "button",
-          "latex": "\\bigotimes_{}^{}",
-          "title": "Large tensor product",
-          "display": "\\bigotimes_{i=1}^{n}"
-        },
-        {
-          "type": "button",
           "latex": "\\prod_{i=0}^{n}",
           "title": "Product"
         },
@@ -781,7 +775,7 @@
           "display": "\\bigsqcup_{i=1}^{n}"
         }
       ],
-      "isCollapsed": true
+      "isCollapsed": false
     },
     {
       "nombre": "Arrows",
