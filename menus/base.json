@@ -90,7 +90,7 @@
           "display": ""
         }
       ],
-      "isCollapsed": false
+      "isCollapsed": true
     },
     {
       "nombre": "Delimiters",
@@ -172,7 +172,7 @@
           "title": "Overbrace"
         }
       ],
-      "isCollapsed": false
+      "isCollapsed": true
     },
     {
       "nombre": "Operators and relations",
@@ -535,7 +535,7 @@
           "title": "Measured angle"
         }
       ],
-      "isCollapsed": false
+      "isCollapsed": true
     },
     {
       "nombre": "Sets",
