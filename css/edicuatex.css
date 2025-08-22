@@ -27,6 +27,10 @@ body {
     color: var(--text-color);
 }
 
+a {
+    color: var(--text-color);
+}
+
 .exelearning body {
     background: #efeff1;
 }
@@ -140,7 +144,7 @@ body {
     color: var(--dark-gray);
 }
 
-#settings-btn, #maximize-btn {
+#settings-btn, #maximize-btn, #menu-toggler-btn {
     background: none;
     border: none;
     font-size: 1.5rem;
@@ -151,13 +155,26 @@ body {
     flex-shrink: 0;
 }
 
+#maximize-btn {
+    margin-top: -3px;
+}
+
 #settings-btn:hover, #maximize-btn:hover {
     color: var(--primary-color);
     transform: rotate(45deg);
 }
 
+#menu-toggler-btn {
+    transform: scale(.9);
+}
+
+#menu-toggler-btn:hover {
+    color: var(--primary-color);
+    transform: scale(1);
+}
+
 #maximize-btn:hover {
-     transform: scale(1.2);
+     transform: scale(1.1);
 }
 
 .search-results-view .tabs-container {
@@ -197,7 +214,7 @@ body {
     border-bottom-color: var(--primary-color);
 }
 
-.toolbar-wrapper {
+#toolbar-wrapper {
     padding: 20px;
     background: var(--white);
 }

@@ -28,6 +28,7 @@
         </header>
         <div class="tabs-section" id="tabs-section">
             <div class="search-wrapper">
+                <button id="menu-toggler-btn" title="Menus" data-i18n-title="Menus">☰</button>
                 <div class="search-input-container">
                     <input autocomplete="off" id="search-input" placeholder="Search by description or code (e.g.: fraction, \int)..." type="search" data-i18n-placeholder="Search by description or code (e.g.: fraction, \int)...">
                     <button id="clear-search-btn" title="Clear search" data-i18n-title="Clear search">×</button>
@@ -36,7 +37,7 @@
                 <button id="maximize-btn" title="Fullscreen" data-i18n-title="Fullscreen">🗖</button>
             </div>
             <div class="tabs-container" id="tabs-container"></div>
-            <div class="toolbar-wrapper">
+            <div id="toolbar-wrapper">
                 <div id="toolbar"></div>
             </div>
         </div>
@@ -90,7 +91,7 @@
             <h2 data-i18n-key="Manage menus">Manage menus</h2>
             <p style="text-align:center; margin-bottom: 12px;">
                 <span data-i18n-key="You can edit your own menus with the">You can edit your own menus with the</span>
-                <a href="menus/editor.html" target="_blank" rel="noopener noreferrer" data-i18n-key="Menu Editor">Menu Editor</a>.
+                <a href="menus/editor.html" target="_blank" rel="noopener noreferrer" data-i18n-key="Menu Editor" id="menu-editor-link">Menu Editor</a>.
             </p>
             <div class="modal-body">
                 <h3 data-i18n-key="Available menus">Available menus</h3>
@@ -156,6 +157,7 @@
             </div>
         </div>
     </div>
+    <script src="js/DOMPurify/purify.min.js"></script>
     <script src="js/edicuatex.js"></script>
 </body>
 </html>

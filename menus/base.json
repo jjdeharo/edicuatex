@@ -90,7 +90,7 @@
           "display": ""
         }
       ],
-      "isCollapsed": true
+      "isCollapsed": false
     },
     {
       "nombre": "Delimiters",
@@ -748,6 +748,12 @@
         },
         {
           "type": "button",
+          "latex": "\\bigotimes_{}^{}",
+          "title": "Large tensor product",
+          "display": "\\bigotimes_{i=1}^{n}"
+        },
+        {
+          "type": "button",
           "latex": "\\prod_{i=0}^{n}",
           "title": "Product"
         },
@@ -775,7 +781,7 @@
           "display": "\\bigsqcup_{i=1}^{n}"
         }
       ],
-      "isCollapsed": false
+      "isCollapsed": true
     },
     {
       "nombre": "Arrows",

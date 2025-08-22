@@ -60,7 +60,7 @@ function updateAllDynamicTexts() {
 function addFooter() {
     const footer = document.getElementById('page-footer');
     if (footer) {
-        footer.innerHTML = `<p style="margin-bottom: 10px;"><a href="https://labia.tiddlyhost.com" target="_blank" rel="noopener noreferrer">${_('Educational Applications Laboratory')}</a> | <a href="https://bilateria.org" target="_blank" rel="noopener noreferrer">${_('Application created by Juan José de Haro')}</a></p><p style="margin-bottom: 10px;"><a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">Licencia Creative Commons BY-SA</a></p><p style="margin-top: 20px; font-size: 0.8em; opacity: 0.7;">v1.0.0</p>`;
+        footer.innerHTML = `<p style="margin-bottom: 10px;"><a href="https://labia.tiddlyhost.com" target="_blank" rel="noopener noreferrer">${_('Educational Applications Laboratory')}</a> | <a href="https://bilateria.org" target="_blank" rel="noopener noreferrer">${_('Application created by Juan José de Haro')}</a></p><p style="margin-bottom: 10px;"><a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">Licencia Creative Commons BY-SA</a></p><p style="margin-top: 20px; font-size: 0.8em; opacity: 0.7;">v1.1</p>`;
     }
 };
 
@@ -79,6 +79,7 @@ async function initializeLatexEditor() {
     const toolbar = document.getElementById('toolbar');
     const searchInput = document.getElementById('search-input');
     const clearSearchBtn = document.getElementById('clear-search-btn');
+    const menuTogglerBtn = document.getElementById('menu-toggler-btn');
     const settingsBtn = document.getElementById('settings-btn');
     // Modals
     const settingsModal = document.getElementById('settings-modal');
@@ -443,7 +444,8 @@ async function initializeLatexEditor() {
     }
     
     function updatePreview() {
-        preview.innerHTML = latexInput.value.trim() === "" ? "" : `$$${latexInput.value.trim()}$$`;
+        const sanitizedInput = DOMPurify.sanitize(latexInput.value.trim());
+        preview.innerHTML = sanitizedInput === "" ? "" : `$$${sanitizedInput}$$`;
         MathJax.typesetPromise([preview]).catch(() => { preview.innerHTML = `<span style="color:red;">${_('Syntax error')}</span>`; });
     }
 
@@ -659,28 +661,28 @@ async function initializeLatexEditor() {
             default: latexToInsert = rawLatex;
         }
         try {
-            // --- eXeLearning Integration (Legacy) ---
-            const tinymceRef = parent && parent.tinymce ? parent.tinymce : null;
+             const tinymceRef = parent && parent.tinymce ? parent.tinymce : null;
             if (isInExe && tinymceRef && tinymceRef.activeEditor) {
                 tinymceRef.activeEditor.execCommand('mceReplaceContent', false, latexToInsert);
                 tinymceRef.activeEditor.windowManager?.close();
-                return; // Success, exit
+                return;
             }
-        } catch (err) {
-            console.warn('Could not use TinyMCE integration:', err);
-        }
-
-        // --- Generic Integration using postMessage (for other apps) ---
-        if (window.opener) {
-            // The '*' means we don't restrict the target origin.
-            // For higher security, this could be replaced with the specific URL
-            // of the application that is allowed to open the editor.
-            window.opener.postMessage(latexToInsert, '*');
-        }
-
+        } catch(err){ console.error('Insert Error:', err);}
         window.close();
     });
     viewImageButton.addEventListener('click', handleViewImage);
+    menuTogglerBtn.addEventListener('click', function(){
+        const tabs = document.getElementById('tabs-container');
+        const toolbars = document.getElementById('toolbar-wrapper');
+        if (!tabs || !toolbars) return;
+        if (tabs.style.display == 'none') {
+            tabs.style.display = 'block';
+            toolbars.style.display = 'block';
+        } else {
+            tabs.style.display = 'none';
+            toolbars.style.display = 'none';
+        }
+    });
     settingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
     closeSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('active'));
     
