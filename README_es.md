@@ -146,7 +146,11 @@ Ejemplo:
 
 ## Licencia
 
-Este proyecto tiene licencia Creative Commons BY-SA. Puedes usarlo, modificarlo y compartirlo libremente, citando al autor y manteniendo la misma licencia.
+- Código: GNU AGPL v3. Ver `LICENSE.txt`.
+- Contenidos (textos, capturas, datos de menús): CC BY-SA 4.0.
+  - https://creativecommons.org/licenses/by-sa/4.0/deed.es
+
+Las librerías de terceros mantienen sus propias licencias.
 
 ---
 

@@ -146,7 +146,11 @@ Example:
 
 ## License
 
-This project is licensed under Creative Commons BY-SA. You can use, modify, and share it freely, citing the author and keeping the same license.
+- Code: GNU AGPL v3. See `LICENSE.txt`.
+- Content (texts, screenshots, menu data): CC BY-SA 4.0.
+  - https://creativecommons.org/licenses/by-sa/4.0/
+
+Third-party libraries remain under their own licenses.
 
 ---
 
