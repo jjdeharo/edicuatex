@@ -73,6 +73,8 @@ async function initializeLatexEditor() {
     const clearButton = document.getElementById('clear-button');
     const insertButton = document.getElementById('insert-button');
     const viewImageButton = document.getElementById('view-image-button');
+    // Optional contextual send-to-host button (created dynamically)
+    let sendButton = null;
     const delimiterSelector = document.getElementById('delimiter-selector');
     const copyCodeFeedback = document.getElementById('copy-code-feedback');
     const tabsContainer = document.getElementById('tabs-container');
@@ -195,6 +197,10 @@ async function initializeLatexEditor() {
     let loadedMenus = new Map();
     let menuCache = new Map();
     let recentSymbols = [];
+    // postMessage integration flags (only when explicitly requested)
+    const urlParams = new URLSearchParams(window.location.search);
+    const pmEnabled = !isInExe && (urlParams.get('pm') === '1' || urlParams.get('postmessage') === '1');
+    const pmOrigin = urlParams.get('origin') ? decodeURIComponent(urlParams.get('origin')) : '';
     
     // --- CORE FUNCTIONS (RESTORED AND INTERNATIONALIZED) ---
 
@@ -459,6 +465,16 @@ async function initializeLatexEditor() {
         if (textToInsert.includes('\\begin{')) return;
         trackSymbolUsage(textToInsert);
     }
+
+    function computeWrappedLatex(raw) {
+        switch (delimiterSelector.value) {
+            case 'parentheses': return `\\(${raw}\\)`;
+            case 'brackets': return `\\[${raw}\\]`;
+            case 'double_dollar': return `$$\n${raw}\n$$`;
+            case 'single_dollar': return `$${raw}$`;
+            default: return raw;
+        }
+    }
     
     function generateImage(callback) {
         const svgElement = preview.querySelector('svg');
@@ -594,6 +610,62 @@ async function initializeLatexEditor() {
         const tabId = button.dataset.tab;
         document.getElementById(`tab-${tabId}`).classList.add('active');
         renderTabContent(tabId, getAllCategories());
+    }
+
+    function setupSendToHostButtonIfNeeded() {
+        if (!pmEnabled) return; // Only when explicitly enabled via URL
+        // Safety: require a non-empty origin
+        if (!pmOrigin || typeof pmOrigin !== 'string') {
+            console.warn('postMessage mode requested but missing origin parameter');
+        }
+        // Create the button and place it next to existing actions (same panel as copy/insert)
+        const actionsContainers = document.querySelectorAll('.panel-actions');
+        if (!actionsContainers || actionsContainers.length === 0) return;
+        const actions = actionsContainers[0];
+        if (!actions) return;
+        sendButton = document.createElement('button');
+        sendButton.className = 'btn btn-success';
+        sendButton.id = 'send-button';
+        sendButton.setAttribute('data-i18n-key', 'Send to host');
+        sendButton.textContent = _('Send to host');
+        actions.insertBefore(sendButton, actions.firstChild);
+
+        sendButton.addEventListener('click', () => {
+            const rawLatex = latexInput.value.trim();
+            if (!rawLatex) return;
+            if (!pmOrigin) {
+                copyCodeFeedback.textContent = _('Missing or invalid origin.');
+                copyCodeFeedback.style.opacity = '1';
+                setTimeout(() => { copyCodeFeedback.style.opacity = '0'; }, 2000);
+                return;
+            }
+            const payload = {
+                type: 'edicuatex:result',
+                latex: rawLatex,
+                delimiter: delimiterSelector.value,
+                wrapped: computeWrappedLatex(rawLatex)
+            };
+            try {
+                let target = null;
+                if (window.opener && !window.opener.closed) target = window.opener;
+                else if (window.parent && window.parent !== window) target = window.parent;
+                if (!target) {
+                    copyCodeFeedback.textContent = _('No host window available.');
+                    copyCodeFeedback.style.opacity = '1';
+                    setTimeout(() => { copyCodeFeedback.style.opacity = '0'; }, 2000);
+                    return;
+                }
+                target.postMessage(payload, pmOrigin);
+                copyCodeFeedback.textContent = _('Sent!');
+                copyCodeFeedback.style.opacity = '1';
+                setTimeout(() => { copyCodeFeedback.style.opacity = '0'; }, 2000);
+            } catch (err) {
+                console.error('postMessage error:', err);
+                copyCodeFeedback.textContent = _('Error');
+                copyCodeFeedback.style.opacity = '1';
+                setTimeout(() => { copyCodeFeedback.style.opacity = '0'; }, 2000);
+            }
+        });
     }
     
     // --- INITIALIZATION ---
@@ -745,6 +817,9 @@ async function initializeLatexEditor() {
 
     // Start the application
     initializeApp();
+
+    // Enable contextual send-to-host button if requested via URL
+    setupSendToHostButtonIfNeeded();
 }
 
 // Expose initializeLatexEditor to the global window object so MathJax can call it.

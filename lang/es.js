@@ -23,6 +23,10 @@ $i18n['es'] = {
     'Copy': 'Copiar',
     'Delete': 'Borrar',
     'Code copied!': '¡Código copiado!',
+    'Send to host': 'Enviar a la app',
+    'Sent!': '¡Enviado!',
+    'Missing or invalid origin.': 'Falta el parámetro origin o es inválido.',
+    'No host window available.': 'No hay ventana de destino disponible.',
     // === INDEX.HTML - MAIN HEADER & FOOTERPREVIEW PANEL ===
     'Preview': 'Previsualización',
     'View image': 'Ver imagen',

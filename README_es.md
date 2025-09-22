@@ -10,6 +10,46 @@ El programa funciona tanto de forma **independiente** como **integrado en eXeLea
 
 ---
 
+## Integración con otras aplicaciones web (postMessage)
+
+Además de la integración con eXeLearning/TinyMCE, puedes integrar EdiCuaTeX en cualquier web mediante `postMessage` sin tocar el código de tu app:
+
+- Abrir el editor con parámetros: añade `?pm=1&origin=<TU_ORIGIN>` a la URL del editor.
+  - Ejemplo local (popup): `http://localhost:8000/index.html?pm=1&origin=http%3A%2F%2Flocalhost%3A8001`
+  - Ejemplo público (GitHub Pages): `https://jjdeharo.github.io/edicuatex/index.html?pm=1&origin=https%3A%2F%2Fjjdeharo.github.io`
+  - `origin` debe ser el origen exacto (protocolo + host + puerto) de tu app receptora.
+- Botón contextual: con `pm=1` aparece el botón “Enviar a la app”.
+- Payload enviado al pulsar “Enviar”:
+  - `type: 'edicuatex:result'`
+  - `latex`: código LaTeX sin delimitadores
+  - `delimiter`: valor del selector de delimitadores (`none`, `parentheses`, `brackets`, `double_dollar`, `single_dollar`)
+  - `wrapped`: LaTeX con los delimitadores elegidos
+
+Ejemplo mínimo en tu app (popup o iframe):
+
+```html
+<button id="open">Abrir editor</button>
+<textarea id="out" rows="6" cols="60"></textarea>
+<script>
+let editorOrigin = '';
+document.getElementById('open').onclick = () => {
+  const url = 'http://localhost:8000/index.html?pm=1&origin=' + encodeURIComponent(location.origin);
+  editorOrigin = new URL(url).origin; // p.ej., http://localhost:8000
+  window.open(url, 'edicuatex', 'width=1100,height=800');
+};
+window.addEventListener('message', (e) => {
+  if (!editorOrigin || e.origin !== editorOrigin) return; // seguridad: solo aceptar del editor
+  if (e.data && e.data.type === 'edicuatex:result') {
+    document.getElementById('out').value = e.data.wrapped || e.data.latex || '';
+  }
+});
+</script>
+```
+
+Notas
+- Funciona tanto en `window.open` (popup) como en `<iframe>`.
+- La integración con eXe/TinyMCE permanece intacta y separada; el botón “Insertar” solo aparece dentro de eXe.
+
 ## 1. `index.html` → Editor visual de fórmulas LaTeX
 
 ### Funcionalidades principales

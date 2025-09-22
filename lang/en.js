@@ -23,6 +23,10 @@ $i18n['eXe'] = {
     'Copy': _('Copy'),
     'Delete': _('Delete'),
     'Code copied!': _('Code copied!'),
+    'Send to host': _('Send to host'),
+    'Sent!': _('Sent!'),
+    'Missing or invalid origin.': _('Missing or invalid origin.'),
+    'No host window available.': _('No host window available.'),
     // === INDEX.HTML - MAIN HEADER & FOOTERPREVIEW PANEL ===
     'Preview': _('Preview'),
     'View image': _('View image'),

@@ -10,6 +10,46 @@ The program works both as a **standalone** application and **integrated into eXe
 
 ---
 
+## Integration with other web apps (postMessage)
+
+Besides the eXeLearning/TinyMCE integration, you can integrate EdiCuaTeX into any website via `postMessage` without modifying your app:
+
+- Open the editor with parameters: append `?pm=1&origin=<YOUR_ORIGIN>` to the editor URL.
+  - Local example (popup): `http://localhost:8000/index.html?pm=1&origin=http%3A%2F%2Flocalhost%3A8001`
+  - Public example (GitHub Pages): `https://jjdeharo.github.io/edicuatex/index.html?pm=1&origin=https%3A%2F%2Fjjdeharo.github.io`
+  - `origin` must be the exact origin (protocol + host + port) of your receiving app.
+- Contextual button: with `pm=1`, a “Send to host” button appears.
+- Payload sent when clicking “Send”:
+  - `type: 'edicuatex:result'`
+  - `latex`: LaTeX code without delimiters
+  - `delimiter`: value from the delimiter selector (`none`, `parentheses`, `brackets`, `double_dollar`, `single_dollar`)
+  - `wrapped`: LaTeX including the selected delimiters
+
+Minimal host example (popup or iframe):
+
+```html
+<button id="open">Open editor</button>
+<textarea id="out" rows="6" cols="60"></textarea>
+<script>
+let editorOrigin = '';
+document.getElementById('open').onclick = () => {
+  const url = 'http://localhost:8000/index.html?pm=1&origin=' + encodeURIComponent(location.origin);
+  editorOrigin = new URL(url).origin; // e.g., http://localhost:8000
+  window.open(url, 'edicuatex', 'width=1100,height=800');
+};
+window.addEventListener('message', (e) => {
+  if (!editorOrigin || e.origin !== editorOrigin) return; // accept only from editor
+  if (e.data && e.data.type === 'edicuatex:result') {
+    document.getElementById('out').value = e.data.wrapped || e.data.latex || '';
+  }
+});
+</script>
+```
+
+Notes
+- Works with both `window.open` (popup) and `<iframe>` embeds.
+- The eXe/TinyMCE integration remains intact and separate; the “Insert” button is shown only inside eXe.
+
 ## 1. `index.html` → Visual LaTeX Formula Editor
 
 ### Main Features
