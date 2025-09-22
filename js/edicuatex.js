@@ -59,8 +59,9 @@ function updateAllDynamicTexts() {
 // This function must be available globally to be called from the DOMContentLoaded listener
 function addFooter() {
     const footer = document.getElementById('page-footer');
-    if (footer) {
-        footer.innerHTML = `<p style="margin-bottom: 10px;"><a href="https://labia.tiddlyhost.com" target="_blank" rel="noopener noreferrer">${_('Educational Applications Laboratory')}</a> | <a href="https://bilateria.org" target="_blank" rel="noopener noreferrer">${_('Application created by Juan José de Haro')}</a></p><p style="margin-bottom: 10px;"><a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">Licencia Creative Commons BY-SA</a></p><p style="margin-top: 20px; font-size: 0.8em; opacity: 0.7;">v1.1</p>`;
+    if (footer && !isInExe) {
+        footer.innerHTML = `<p style="margin-bottom: 10px;">© <a href="https://bilateria.org" target="_blank" rel="noopener noreferrer">Juan José de Haro</a></p>
+<p style="margin-bottom: 0;">${_('Code license:')} <a href="LICENSE.txt" target="_blank" rel="noopener noreferrer">AGPL v3</a> · ${_('Content:')} <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a></p>`;
     }
 };
 

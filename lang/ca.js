@@ -5,6 +5,8 @@ $i18n['ca'] = {
     'Create mathematical formulas visually, copy them or download them as images.': 'Crea fórmules matemàtiques visualment, copia-les o descarrega-les com a imatges.',
     'Educational Applications Laboratory': 'Laboratori d\'Aplicacions Educatives',
     'Application created by Juan José de Haro': 'Aplicació creada per Juan José de Haro',
+    'Code license:': 'Llicència del codi:',
+    'Content:': 'Contingut:',
     // === INDEX.HTML - MAIN HEADER & FOOTERSEARCH & TOOLBAR ===
     'Menus': 'Menús',
     'Search by description or code (e.g.: fraction, \\int)...': 'Cerca per descripció o codi (ex: fracció, \\int)...',

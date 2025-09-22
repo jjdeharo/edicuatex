@@ -5,6 +5,8 @@ $i18n['eXe'] = {
     'Create mathematical formulas visually, copy them or download them as images.': _('Create mathematical formulas visually, copy them or download them as images.'),
     'Educational Applications Laboratory': _('Educational Applications Laboratory'),
     'Application created by Juan José de Haro': _('Application created by Juan José de Haro'),
+    'Code license:': _('Code license:'),
+    'Content:': _('Content:'),
     // === INDEX.HTML - MAIN HEADER & FOOTERSEARCH & TOOLBAR ===
     'Menus': _('Menus'),
     'Search by description or code (e.g.: fraction, \\int)...': _('Search by description or code (e.g.: fraction, \\int)...'),
