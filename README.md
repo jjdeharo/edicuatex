@@ -2,6 +2,9 @@
 
 # Online $\LaTeX$ Equation Editor
 
+[![AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE.txt)
+[![CC BY-SA 4.0](https://img.shields.io/badge/Content-CC_BY--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+
 ## Description
 
 This project is a free tool designed to help teachers and students create and edit mathematical formulas easily, without needing in-depth knowledge of LaTeX. It allows you to generate educational materials with clear, professional mathematical notation. It can be used with programs that support LaTeX, such as eXeLearning, Moodle, Overleaf, etc.

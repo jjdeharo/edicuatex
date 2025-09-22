@@ -2,6 +2,9 @@
 
 # Editor de ecuaciones $\LaTeX$ online
 
+[![AGPL v3](https://img.shields.io/badge/Licencia-AGPL_v3-blue.svg)](LICENSE.txt)
+[![CC BY-SA 4.0](https://img.shields.io/badge/Contenido-CC_BY--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/deed.es)
+
 ## Descripción
 
 Este proyecto es una herramienta gratuita pensada para que docentes y estudiantes puedan crear y editar fórmulas matemáticas fácilmente, sin necesidad de conocer a fondo el lenguaje LaTeX. Permite generar materiales educativos con notación matemática clara y profesional. Se puede usar con programas que admiten LaTeX, como eXeLearning, Moodle, Overleaf, etc.
