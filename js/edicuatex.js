@@ -248,6 +248,18 @@ async function initializeLatexEditor() {
 
     const loadAddedMenusFromStorage = () => JSON.parse(localStorage.getItem('latexAddedMenus')) || [];
 
+    const resolveMenuUrl = (rawUrl) => {
+        if (!rawUrl) return rawUrl;
+        const trimmed = rawUrl.trim();
+        const absolutePattern = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i;
+        if (absolutePattern.test(trimmed)) return trimmed;
+        if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
+        if (trimmed.startsWith('./menus/') || trimmed.startsWith('menus/') || trimmed.startsWith('/')) return trimmed;
+        if (trimmed.startsWith('../')) return trimmed;
+        const normalized = trimmed.replace(/^\.\/+/, '');
+        return `./menus/${normalized}`;
+    };
+
     const fetchMenuData = async (url) => {
         if (menuCache.has(url)) return menuCache.get(url);
         try {
@@ -265,10 +277,10 @@ async function initializeLatexEditor() {
 
     const addMenu = async (menuInfo) => {
         if (loadedMenus.has(menuInfo.id)) return;
-        menuInfo.url = 'menus/' + menuInfo.url;
-        const data = await fetchMenuData(menuInfo.url);
+        const resolvedUrl = resolveMenuUrl(menuInfo.url);
+        const data = await fetchMenuData(resolvedUrl);
         if (data) {
-            loadedMenus.set(menuInfo.id, { ...menuInfo, data });
+            loadedMenus.set(menuInfo.id, { ...menuInfo, url: resolvedUrl, data });
             rebuildToolbarAndUI();
             saveAddedMenusToStorage();
         }
@@ -687,8 +699,9 @@ async function initializeLatexEditor() {
         }
         const BASE_NAME = 'base.json';
         if (manifestMenus.find(m => m.file === BASE_NAME)) {
-            const data = await fetchMenuData(`./menus/${BASE_NAME}`);
-            if (data) loadedMenus.set(BASE_NAME, { id: BASE_NAME, url: `./${BASE_NAME}`, source: 'default', name: 'Base', data });
+            const baseUrl = resolveMenuUrl(BASE_NAME);
+            const data = await fetchMenuData(baseUrl);
+            if (data) loadedMenus.set(BASE_NAME, { id: BASE_NAME, url: baseUrl, source: 'default', name: 'Base', data });
         }
         const previouslyAdded = loadAddedMenusFromStorage();
         for (const menuInfo of previouslyAdded) {
